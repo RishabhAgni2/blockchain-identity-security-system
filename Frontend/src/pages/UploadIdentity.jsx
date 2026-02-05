@@ -1,46 +1,82 @@
-import React, { useState } from "react";
+import { useState } from "react";
+import { createIdentity, getIdentity } from "../services/identityService";
 
-function UploadIdentity() {
-  const [file, setFile] = useState(null);
-  const [hash, setHash] = useState("");
+const UploadIdentity = () => {
+  const [form, setForm] = useState({
+    name: "",
+    dob: "",
+    document: "",
+  });
 
-  const handleFileChange = (e) => {
-    setFile(e.target.files[0]);
-    setHash("");
+  const [address, setAddress] = useState("");
+  const [result, setResult] = useState(null);
+  const [message, setMessage] = useState("");
+
+  const handleChange = (e) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
-  const generateFakeHash = () => {
-    if (!file) {
-      alert("Please upload a file first");
-      return;
+  const handleSubmit = async () => {
+    try {
+      const res = await createIdentity(form);
+      setMessage(res.data.message);
+    } catch (err) {
+      setMessage(err.response?.data?.error || "Error");
     }
-    // Fake hash for frontend MVP
-    const fakeHash =
-      Math.random().toString(36).substring(2) +
-      Math.random().toString(36).substring(2);
-    setHash(fakeHash);
+  };
+
+  const handleFetch = async () => {
+    try {
+      const res = await getIdentity(address);
+      setResult(res.data);
+    } catch (err) {
+      setMessage(err.response?.data?.error || "Error");
+    }
   };
 
   return (
-    <div style={{ marginTop: "30px" }}>
-      <h2>Upload Identity Document</h2>
+    <div style={{ padding: "30px" }}>
+      <h2>Upload Identity</h2>
 
-      <input type="file" onChange={handleFileChange} />
+      <input
+        name="name"
+        placeholder="Name"
+        onChange={handleChange}
+      /><br />
 
-      <br /><br />
+      <input
+        name="dob"
+        placeholder="DOB (YYYY-MM-DD)"
+        onChange={handleChange}
+      /><br />
 
-      <button onClick={generateFakeHash}>
-        Generate Document Hash
-      </button>
+      <input
+        name="document"
+        placeholder="Document ID"
+        onChange={handleChange}
+      /><br />
 
-      {hash && (
-        <div style={{ marginTop: "20px" }}>
-          <strong>Generated Hash:</strong>
-          <p style={{ wordBreak: "break-all" }}>{hash}</p>
-        </div>
+      <button onClick={handleSubmit}>Submit Identity</button>
+
+      <p>{message}</p>
+
+      <hr />
+
+      <h3>Fetch Identity</h3>
+      <input
+        placeholder="Wallet address"
+        onChange={(e) => setAddress(e.target.value)}
+      />
+      <br />
+      <button onClick={handleFetch}>Fetch</button>
+
+      {result && (
+        <pre style={{ background: "#f4f4f4", padding: "10px" }}>
+          {JSON.stringify(result, null, 2)}
+        </pre>
       )}
     </div>
   );
-}
+};
 
 export default UploadIdentity;
