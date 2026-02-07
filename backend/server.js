@@ -28,6 +28,8 @@ app.get("/", (req, res) => {
 
 // ===== Auth Routes =====
 app.use("/api/auth", require("./routes/authRoutes"));
+app.use("/api/documents", require("./routes/documentRoutes"));
+app.use("/api/verify", require("./routes/verifyRoutes"));
 
 // ===== Blockchain Identity Routes =====
 app.use("/api/identity", require("./routes/identityRoutes"));
