@@ -1,0 +1,68 @@
+[
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "user", "type": "address" }
+    ],
+    "name": "IdentityCreated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "user", "type": "address" }
+    ],
+    "name": "IdentityDeleted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      { "indexed": true, "internalType": "address", "name": "user", "type": "address" }
+    ],
+    "name": "IdentityUpdated",
+    "type": "event"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "_nameHash", "type": "string" },
+      { "internalType": "string", "name": "_dobHash", "type": "string" },
+      { "internalType": "string", "name": "_documentHash", "type": "string" }
+    ],
+    "name": "createIdentity",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "deleteIdentity",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "address", "name": "user", "type": "address" }
+    ],
+    "name": "getIdentity",
+    "outputs": [
+      { "internalType": "string", "type": "string" },
+      { "internalType": "string", "type": "string" },
+      { "internalType": "string", "type": "string" }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      { "internalType": "string", "name": "_nameHash", "type": "string" },
+      { "internalType": "string", "name": "_dobHash", "type": "string" },
+      { "internalType": "string", "name": "_documentHash", "type": "string" }
+    ],
+    "name": "updateIdentity",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  }
+]
