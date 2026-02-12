@@ -1,14 +1,26 @@
-import React from "react";
-import UploadIdentity from "./pages/UploadIdentity";
+import { useState } from "react";
+import Login from "./pages/Login";
+import Register from "./pages/Register";
+import Dashboard from "./pages/Dashboard";
+import Verify from "./pages/Verify";
 
 function App() {
-  return (
-    <div style={{ padding: "40px", fontFamily: "Arial" }}>
-      <h1>🔐 Blockchain Identity Security System</h1>
-      <p>Secure identity upload & verification (Local MVP)</p>
+  const [auth, setAuth] = useState(!!localStorage.getItem("token"));
 
-      <UploadIdentity />
-    </div>
+  if (!auth) {
+    return (
+      <>
+        <Login setAuth={setAuth} />
+        <Register />
+      </>
+    );
+  }
+
+  return (
+    <>
+      <Dashboard />
+      <Verify />
+    </>
   );
 }
 
