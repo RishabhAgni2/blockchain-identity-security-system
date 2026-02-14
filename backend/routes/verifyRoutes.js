@@ -1,22 +1,32 @@
 const express = require("express");
-const router = express.Router();
+const multer = require("multer");
+const crypto = require("crypto");
+const fs = require("fs");
+const path = require("path");
 
-// Blockchain contract
 const proofContract = require("../blockchain");
 
-/**
- * @route   GET /api/verify/:hash
- * @desc    Verify document hash on blockchain
- * @access  Public
- */
-router.get("/:hash", async (req, res) => {
-  try {
-    const { hash } = req.params;
+const router = express.Router();
 
-    if (!hash) {
-      return res.status(400).json({ message: "Hash is required" });
+const upload = multer({ dest: "uploads/" });
+
+router.post("/", upload.single("document"), async (req, res) => {
+  try {
+    if (!req.file) {
+      return res.status(400).json({ message: "No file uploaded" });
     }
 
+    // Generate SHA-256 hash
+    const fileBuffer = fs.readFileSync(req.file.path);
+
+    const hash = crypto
+      .createHash("sha256")
+      .update(fileBuffer)
+      .digest("hex");
+
+    fs.unlinkSync(req.file.path);
+
+    // 🔥 CORRECT FUNCTION CALL
     const result = await proofContract.getProof(hash);
 
     const exists = result[0];
@@ -33,11 +43,12 @@ router.get("/:hash", async (req, res) => {
     res.json({
       verified: true,
       uploader,
-      timestamp,
-      verifiedAt: new Date(timestamp * 1000),
+      timestamp: Number(timestamp),
+      hash,
     });
+
   } catch (error) {
-    console.error(error);
+    console.error("Verify error:", error);
     res.status(500).json({ message: "Verification failed" });
   }
 });
