@@ -5,18 +5,17 @@ const fs = require("fs");
 const path = require("path");
 
 const proofContract = require("../blockchain");
-
+const { protect } = require("../middleware/authMiddleware");
 const router = express.Router();
 
 const upload = multer({ dest: "uploads/" });
 
-router.post("/", upload.single("document"), async (req, res) => {
+router.post("/", protect, upload.single("document"), async (req, res) => {
   try {
     if (!req.file) {
       return res.status(400).json({ message: "No file uploaded" });
     }
 
-    // Generate SHA-256 hash
     const fileBuffer = fs.readFileSync(req.file.path);
 
     const hash = crypto
@@ -26,30 +25,22 @@ router.post("/", upload.single("document"), async (req, res) => {
 
     fs.unlinkSync(req.file.path);
 
-    // 🔥 CORRECT FUNCTION CALL
     const result = await proofContract.getProof(hash);
-
     const exists = result[0];
-    const uploader = result[1];
-    const timestamp = result[2];
 
-    if (!exists) {
-      return res.json({
-        verified: false,
-        message: "No proof found on blockchain",
-      });
-    }
+    const Verification = require("../models/Verification");
 
-    res.json({
-      verified: true,
-      uploader,
-      timestamp: Number(timestamp),
-      hash,
+    await Verification.create({
+      user: req.user._id,
+      fileHash: hash,
+      verified: exists,
     });
 
-  } catch (error) {
-    console.error("Verify error:", error);
-    res.status(500).json({ message: "Verification failed" });
+    res.json({ verified: exists });
+
+  } catch (err) {
+    console.error("VERIFY ERROR:", err);
+    res.status(500).json({ message: err.message });
   }
 });
 
