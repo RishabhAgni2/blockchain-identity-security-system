@@ -1,27 +1,22 @@
 const mongoose = require("mongoose");
 
-const documentSchema = new mongoose.Schema({
+const verificationSchema = new mongoose.Schema({
   user: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
-    required: true,
-  },
-  originalName: {
-    type: String,
-    required: true,
   },
   fileHash: {
     type: String,
     required: true,
   },
-  active: {
+  verified: {
     type: Boolean,
-    default: true,
+    required: true,
   },
-  createdAt: {
+  checkedAt: {
     type: Date,
     default: Date.now,
   },
 });
 
-module.exports = mongoose.model("Document", documentSchema);
+module.exports = mongoose.model("Verification", verificationSchema);
