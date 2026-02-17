@@ -32,7 +32,7 @@ app.use("/api/documents", require("./routes/documentRoutes"));
 app.use("/api/verify", require("./routes/verifyRoutes"));
 
 // ===== Blockchain Identity Routes =====
-app.use("/api/identity", require("./routes/identityRoutes"));
+//app.use("/api/identity", require("./routes/identityRoutes"));
 
 // ===== TEMP Protected Test Route (STEP 1.3) =====
 app.get("/api/protected", protect, (req, res) => {
