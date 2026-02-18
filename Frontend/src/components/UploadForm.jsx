@@ -17,10 +17,10 @@ export default function UploadForm() {
 
     try {
       await API.post("/documents/upload", formData, {
-  headers: {
-    "Content-Type": "multipart/form-data",
-  },
-});
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
 
       alert("Document uploaded successfully");
     } catch (error) {
