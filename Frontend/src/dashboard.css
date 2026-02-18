@@ -1,100 +1,90 @@
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: #f4f6fb;
-}
-
-/* Navbar */
-.navbar {
-  background: #1e3a8a;
-  color: white;
-  padding: 15px 30px;
+.layout {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  height: 100vh;
+  background: #f2f4f7;
 }
 
-/* Container */
-.dashboard-container {
-  padding: 30px;
+.sidebar {
+  width: 220px;
+  background: #0d1b2a;
+  color: white;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
 }
 
-/* Stats Section */
-.stats-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-  gap: 20px;
+.sidebar h2 {
   margin-bottom: 30px;
 }
 
-.stats-card {
+.sidebar button {
+  background: none;
+  border: none;
+  color: white;
+  text-align: left;
+  padding: 10px 0;
+  cursor: pointer;
+  font-size: 15px;
+}
+
+.sidebar button:hover {
+  color: #4cc9f0;
+}
+
+.main-content {
+  flex: 1;
+  padding: 40px;
+}
+
+.card {
   background: white;
-  padding: 20px;
-  border-radius: 10px;
-  box-shadow: 0px 3px 8px rgba(0,0,0,0.1);
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  margin-bottom: 20px;
 }
 
-.stats-title {
-  color: gray;
-  font-size: 14px;
-}
-
-.stats-value {
-  font-size: 28px;
+.big-number {
+  font-size: 32px;
   font-weight: bold;
-  margin-top: 5px;
 }
 
-/* Document List Card */
-.document-card {
+.doc-card {
   background: white;
   padding: 20px;
   border-radius: 10px;
   margin-bottom: 15px;
-  box-shadow: 0px 3px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
-.document-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-.badge {
-  padding: 5px 12px;
-  border-radius: 20px;
-  font-size: 12px;
-  font-weight: bold;
-}
-
-.verified {
-  background: #d1fae5;
-  color: #065f46;
-}
-
-.tampered {
-  background: #fee2e2;
-  color: #991b1b;
-}
-
-.pending {
-  background: #fef3c7;
-  color: #92400e;
-}
-
-button {
-  padding: 8px 12px;
-  border-radius: 6px;
-  border: none;
-  cursor: pointer;
-  margin-right: 10px;
-}
-
-.verify-btn {
-  background: #1e3a8a;
+.primary-btn {
+  background: #2563eb;
   color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 6px;
+  margin-left: 10px;
+  cursor: pointer;
 }
 
-.details-btn {
-  background: #e5e7eb;
+.primary-btn:hover {
+  background: #1e4fd6;
+}
+
+.delete-btn {
+  background: #ef4444;
+  color: white;
+  border: none;
+  padding: 6px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.delete-btn:hover {
+  background: #dc2626;
+}
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
 }
