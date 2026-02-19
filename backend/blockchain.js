@@ -1,7 +1,7 @@
 const { ethers } = require("ethers");
 require("dotenv").config();
 
-const proofArtifact = require("../blockchain/artifacts/contracts/DocumentProof.sol/DocumentProof.json");
+const proofArtifact = require("./abi/DocumentProof.json");
 
 const provider = new ethers.providers.JsonRpcProvider(
   process.env.RPC_URL
