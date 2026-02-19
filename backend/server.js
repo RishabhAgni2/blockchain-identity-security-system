@@ -18,7 +18,9 @@ const app = express();
 connectDB();
 
 // ===== Middlewares =====
-app.use(cors());
+app.use(cors({
+  origin: "*"
+}));
 app.use(express.json());
 
 // ===== Health Check =====
@@ -31,8 +33,7 @@ app.use("/api/auth", require("./routes/authRoutes"));
 app.use("/api/documents", require("./routes/documentRoutes"));
 app.use("/api/verify", require("./routes/verifyRoutes"));
 
-// ===== Blockchain Identity Routes =====
-//app.use("/api/identity", require("./routes/identityRoutes"));
+
 
 // ===== TEMP Protected Test Route (STEP 1.3) =====
 app.get("/api/protected", protect, (req, res) => {

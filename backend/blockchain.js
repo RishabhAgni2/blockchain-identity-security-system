@@ -1,15 +1,11 @@
 const { ethers } = require("ethers");
-const path = require("path");
+require("dotenv").config();
 
-const proofArtifact = require(path.join(
-  __dirname,
-  "../blockchain/artifacts/contracts/DocumentProof.sol/DocumentProof.json"
-));
-
-const { DOCUMENT_PROOF_ADDRESS } = require("../blockchain/contractAddress.cjs");
+const proofArtifact = require("../blockchain/artifacts/contracts/DocumentProof.sol/DocumentProof.json");
 
 const provider = new ethers.providers.JsonRpcProvider(
-  "http://127.0.0.1:8545"
+  process.env.RPC_URL
+  
 );
 
 const signer = new ethers.Wallet(
@@ -18,7 +14,7 @@ const signer = new ethers.Wallet(
 );
 
 const documentProofContract = new ethers.Contract(
-  DOCUMENT_PROOF_ADDRESS,
+  process.env.CONTRACT_ADDRESS,
   proofArtifact.abi,
   signer
 );

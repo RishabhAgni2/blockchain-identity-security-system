@@ -1,15 +1,17 @@
-import hre from "hardhat";
-const { ethers } = hre;
+import pkg from "hardhat";
+
+const { ethers } = pkg;
 
 async function main() {
-  const DocumentProof = await ethers.getContractFactory("DocumentProof");
-  const contract = await DocumentProof.deploy();
-  await contract.deployed();
+  const Contract = await ethers.getContractFactory("DocumentProof");
+  const contract = await Contract.deploy();
 
-  console.log("DocumentProof deployed to:", contract.address);
+  await contract.waitForDeployment();
+
+  console.log("Contract deployed to:", await contract.getAddress());
 }
 
-main().catch((err) => {
-  console.error(err);
+main().catch((error) => {
+  console.error(error);
   process.exit(1);
 });
