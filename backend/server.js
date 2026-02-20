@@ -19,7 +19,8 @@ connectDB();
 
 // ===== Middlewares =====
 app.use(cors({
-  origin: "*"
+  origin: "*",
+  credentials: true
 }));
 app.use(express.json());
 
