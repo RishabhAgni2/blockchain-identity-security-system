@@ -6,22 +6,36 @@ import "../auth.css";
 export default function Register() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   const handleRegister = async (e) => {
     e.preventDefault();
+    setMessage("");
+    setLoading(true);
 
     try {
-      await API.post("/auth/register", {
-        email,
+      const res = await API.post("/auth/register", {
+        email: email.trim(),
         password,
       });
 
-      alert("Registration successful");
-      navigate("/login");
+      if (res.data?.token) {
+        localStorage.setItem("token", res.data.token);
+        navigate("/dashboard");
+        return;
+      }
 
+      setMessage("Registration completed. Please login.");
+      navigate("/login");
     } catch (err) {
-      alert("Registration failed");
+      setMessage(
+        err.response?.data?.message ||
+          "Registration failed. Please try again."
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -29,6 +43,16 @@ export default function Register() {
     <div className="auth-container">
       <div className="auth-card">
         <h2>Register</h2>
+
+        {message && (
+          <div
+            className={`auth-message ${
+              message.includes("completed") ? "success" : "error"
+            }`}
+          >
+            {message}
+          </div>
+        )}
 
         <form onSubmit={handleRegister}>
           <input
@@ -47,7 +71,9 @@ export default function Register() {
             required
           />
 
-          <button type="submit">Register</button>
+          <button type="submit" disabled={loading}>
+            {loading ? "Creating account..." : "Register"}
+          </button>
         </form>
 
         <div className="auth-link">

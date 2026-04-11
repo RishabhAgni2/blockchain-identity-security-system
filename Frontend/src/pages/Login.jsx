@@ -6,22 +6,30 @@ import "../auth.css";
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
   const navigate = useNavigate();
 
   const handleLogin = async (e) => {
     e.preventDefault();
+    setMessage("");
+    setLoading(true);
 
     try {
       const res = await API.post("/auth/login", {
-        email,
+        email: email.trim(),
         password,
       });
 
       localStorage.setItem("token", res.data.token);
       navigate("/dashboard");
-
     } catch (err) {
-      alert("Invalid credentials");
+      setMessage(
+        err.response?.data?.message ||
+          "Unable to login right now. Please try again."
+      );
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -29,6 +37,8 @@ export default function Login() {
     <div className="auth-container">
       <div className="auth-card">
         <h2>Login</h2>
+
+        {message && <div className="auth-message error">{message}</div>}
 
         <form onSubmit={handleLogin}>
           <input
@@ -47,7 +57,9 @@ export default function Login() {
             required
           />
 
-          <button type="submit">Login</button>
+          <button type="submit" disabled={loading}>
+            {loading ? "Signing in..." : "Login"}
+          </button>
         </form>
 
         <div className="auth-link">
