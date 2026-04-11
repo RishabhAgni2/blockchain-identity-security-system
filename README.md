@@ -11,11 +11,6 @@ This project is a blockchain-backed document security application. Users can reg
 - Saves document metadata and verification history in MongoDB
 - Lets users verify whether a document is authentic or tampered
 
-## Project structure
-
-- `frontend/`: React + Vite client for login, registration, dashboard, upload, and verification
-- `backend/`: Express API for auth, document upload, verification, stats, and MongoDB access
-- `blockchain/`: Hardhat contract project for the `DocumentProof` smart contract
 
 ## Main flow
 
