@@ -24,7 +24,11 @@ export default function UploadForm() {
 
       alert("Document uploaded successfully");
     } catch (error) {
-      console.error(error);
+      
+      console.log("FULL ERROR:", error);
+  console.log("STATUS:", error?.response?.status);
+  console.log("DATA:", error?.response?.data);
+
       alert("Upload failed");
     }
   };
